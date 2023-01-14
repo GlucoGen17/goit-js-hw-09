@@ -34,7 +34,7 @@ btnStop.addEventListener("click", OnStop);
 function onStart(e) {
     btnStart.disabled = true;
     btnStop.disabled = false;
-    timerId = setInterval(ChangeColor, 1000);
+    timerId = setInterval((ChangeColor), 1000);
     function ChangeColor() {
         bodyColor.style.backgroundColor = getRandomHexColor();
     }
