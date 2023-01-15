@@ -167,3 +167,6 @@ const options = {
 
 
 flatpickr(refs.datetimePicker, options);
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
