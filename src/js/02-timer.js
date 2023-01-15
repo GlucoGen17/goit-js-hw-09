@@ -166,3 +166,4 @@ const options = {
 };
 
 
+flatpickr(refs.datetimePicker, options);
