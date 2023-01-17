@@ -93,7 +93,6 @@
 // console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 // console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
-
 // Форматування часу​
 
 // Функція convertMs() повертає об'єкт з розрахованим часом, що залишився до кінцевої дати. Зверни увагу, що вона не форматує результат. Тобто, якщо залишилося 4 хвилини або будь-якої іншої складової часу, то функція поверне 4, а не 04. В інтерфейсі таймера необхідно додавати 0, якщо в числі менше двох символів. Напиши функцію addLeadingZero(value), яка використовує метод padStart() і перед рендерингом інтефрейсу форматує значення.
@@ -104,7 +103,6 @@
 // Наступний функціонал не обов'язковий для здавання завдання, але буде хорошою додатковою практикою.
 // Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку notiflix.
 
-
 // Описаний в документації
 import flatpickr from "flatpickr";
 // Додатковий імпорт стилів
@@ -112,11 +110,11 @@ import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from "notiflix";
 
 function convertMs(ms) {
-    // Number of milliseconds per unit of time
-    const second = 1000;
-    const minute = second * 60;
-    const hour = minute * 60;
-    const day = hour * 24;
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
 
   // Remaining days
   const days = Math.floor(ms / day);
@@ -139,7 +137,6 @@ const refs = {
   hours: document.querySelector("[data-hours]"),
   minutes: document.querySelector("[data-minutes]"),
   seconds: document.querySelector("[data-seconds]"),
-  
 };
 console.log(refs);
 
@@ -152,21 +149,38 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-    onClose(selectedDates) {
-        endDate = selectedDates[0];
-        if (endDate <= new Date()) {
-            refs.btnStart.disabled = true;
-            Notiflix.Notify.failure("Please choose a date in the future");
-        } else {
-        startBtn.disabled = false; 
-        }
+  onClose(selectedDates) {
+    endDate = selectedDates[0];
+    if (endDate <= new Date()) {
+      refs.btnStart.disabled = true;
+      Notiflix.Notify.failure("Please choose a date in the future");
+    } else {
+      startBtn.disabled = false;
+    }
 
     console.log(selectedDates[0]);
   },
 };
 
-
 flatpickr(refs.datetimePicker, options);
 function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
+  return String(value).padStart(2, "0");
+}
+
+startBtn.addEventListener("click", onClick);
+
+function onClick() {
+  timerId = setInterval(() => {
+    let dataTimer = new Data(datetimePicker.value) - new Data();
+    if (dataTimer >= 0) {
+      let time = convertMs(dateDiff);
+      refs.days.textContent = addLeadingZero(time.days);
+      refs.hours.textContent = addLeadingZero(time.hours);
+      refs.minutes.textContent = addLeadingZero(time.minutes);
+      refs.seconds.textContent = addLeadingZero(time.seconds);
+    } else {
+      Notiflix.Notify.success("Finish!");
+      clearInterval(timerId);
+    }
+  }, 1000);
 }
